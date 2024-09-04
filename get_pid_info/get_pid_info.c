@@ -23,6 +23,7 @@ struct pid_info {
 SYSCALL_DEFINE2(get_pid_info, struct pid_info __user *, user_info, int, pid) {
 	(void)user_info;
 	(void)pid;
+	pr_info("im here\n");
 	return 0;
 }
 
