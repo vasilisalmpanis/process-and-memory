@@ -1,4 +1,4 @@
-BUILD = /usr/src/linux-6.10.6
+BUILD = /usr/src/linux-6.10.3
 
 all:
 	@echo "Copying source files"

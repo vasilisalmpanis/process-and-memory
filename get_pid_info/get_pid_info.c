@@ -14,15 +14,19 @@ struct pid_info {
     unsigned long stack_pointer;     // Stack pointer
     unsigned long age;               // Age in jiffies
     pid_t parent_pid;                // Parent PID
-    pid_t children[16];              // Array of child PIDs (size could be adjusted)
+    pid_t *children;              // Array of child PIDs (size could be adjusted)
     char root_path[PATH_MAX];        // Root path
     char current_path[PATH_MAX];     // Current working directory
 };
 
 // Define the system call with two arguments
 SYSCALL_DEFINE2(get_pid_info, struct pid_info __user *, user_info, int, pid) {
+	struct task_struct *task;
+
+	task = pid_task(find_vpid(pid), PIDTYPE_PID);
+	if (!task)
+		return -ESRCH;
 	(void)user_info;
-	(void)pid;
 	pr_info("im here\n");
 	return 0;
 }
