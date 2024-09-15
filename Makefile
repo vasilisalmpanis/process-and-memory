@@ -19,5 +19,5 @@ all:
 	mkinitcpio -p linux-ft_linux
 	@echo "Rebooting"
 	sleep 5
-	shutdown -r
+	shutdown -r now
 
