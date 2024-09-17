@@ -29,6 +29,8 @@ all:
 	grub-mkconfig -o /boot/grub/grub.cfg
 	sed s/linux/linux-ft_linux/g </etc/mkinitcpio.d/linux.preset >/etc/mkinitcpio.d/linux-ft_linux.preset
 	mkinitcpio -p linux-ft_linux
+	@echo "Compiling tester"
+	gcc main.c -o tester
 	@echo "Rebooting"
 	sleep 5
 	shutdown -r now
