@@ -1,6 +1,18 @@
-BUILD = /usr/src/linux-6.10.3
+BUILD = /usr/src/linux-6.10.10
+KERNEL_URL = https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.10.10.tar.xz
+TARBALL = /usr/src/linux-6.10.10.tar.xz
 
 all:
+	@if [ ! -d $(BUILD) ]; then \
+		if [ ! -f $(TARBALL) ]; then \
+			echo "Tarball not found, downloading..."; \
+			wget $(KERNEL_URL) --output-document=$(TARBALL); \
+		fi; \
+		echo "Extracting the tarball..."; \
+		tar xf $(TARBALL) --directory=/usr/src; \
+		rsync -a $(PWD)/.config /usr/src/linux-6.10.10/.config; \
+		yes "" | make oldconfig -C $(BUILD); \
+	fi
 	@echo "Copying source files"
 	rsync -a ./get_pid_info/get_pid_info.c ${BUILD}/kernel/get_pid_info.c
 	rsync -a ./get_pid_info/Makefile ${BUILD}/kernel/Makefile
