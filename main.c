@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define PATH_MAX 4096
 #define __NR_SYSCALL 335
@@ -20,6 +21,8 @@ struct pid_info {
 
 struct pid_info temp;
 
+bool parent = true;
+
 void print_info(struct pid_info *info)
 {
 	printf("Process Information:\n");
@@ -33,6 +36,8 @@ void print_info(struct pid_info *info)
 	}
 	printf("    Current Path     : %s\n", info->current_path);
 	printf("    Root Path        : %s\n", info->root_path);
+	if (parent) printf("\n\n==========CHILDREN==========\n\n\n");
+	parent = false;
 	for (int i = 0; i < 16; i++) {
 		if (info->children[i] > 0) {
 			int ret = syscall(__NR_SYSCALL, &temp, info->children[i]);
